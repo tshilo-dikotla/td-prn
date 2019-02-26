@@ -9,14 +9,21 @@ from edc_identifier.managers import SubjectIdentifierManager
 from edc_identifier.model_mixins import TrackingIdentifierModelMixin
 from edc_protocol.validators import date_not_before_study_start
 from edc_protocol.validators import datetime_not_before_study_start
-from edc_reference.model_mixins import ReferenceModelMixin
 from edc_visit_schedule.model_mixins import OffScheduleModelMixin
+from edc_offstudy.model_mixins import OffstudyModelMixin, OffstudyModelManager
+from td_maternal.models import SubjectConsent
 
 from ..choices import OFF_STUDY_REASON
 
 
-class MaternalOffStudy(OffScheduleModelMixin, ReferenceModelMixin,
+class MaternalOffStudy(OffstudyModelMixin,
                        TrackingIdentifierModelMixin, BaseUuidModel):
+
+    last_study_fu_date = models.DateField(
+        verbose_name='Date of last research follow up (if different):',
+        validators=[date_not_future],
+        blank=True,
+        null=True)
 
     tracking_identifier_prefix = 'ST'
 
@@ -61,6 +68,7 @@ class MaternalOffStudy(OffScheduleModelMixin, ReferenceModelMixin,
             self.last_study_fu_date = self.offschedule_datetime.date()
         super().save(*args, **kwargs)
 
-    class Meta:
+    class Meta(OffstudyModelMixin.Meta):
+        consent_model = 'td_maternal.subjectconsent'
         verbose_name = 'Maternal Off Study'
         verbose_name_plural = 'Maternal Off Studies'

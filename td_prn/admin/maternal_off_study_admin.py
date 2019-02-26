@@ -46,6 +46,7 @@ class MaternalOffStudyAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'subject_identifier',
                 'report_datetime',
                 'offstudy_date',
+                'last_study_fu_date',
                 'reason',
                 'reason_other',
                 'comment']}
@@ -53,5 +54,9 @@ class MaternalOffStudyAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     radio_fields = {'reason': admin.VERTICAL}
 
-
-admin.site.register(MaternalOffStudy, MaternalOffStudyAdmin)
+    def get_readonly_fields(self, request, obj=None):
+        fields = super().get_readonly_fields(request, obj)
+        fields = ('tracking_identifier', 'action_identifier') + fields
+        if obj:
+            fields = fields + ('subject_identifier',)
+        return fields

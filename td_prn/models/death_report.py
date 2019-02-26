@@ -11,7 +11,6 @@ from edc_constants.choices import YES_NO
 from edc_identifier.managers import SubjectIdentifierManager
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_protocol.validators import datetime_not_before_study_start
-from edc_reference.model_mixins import ReferenceModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin
 
 from ..choices import (SOURCE_OF_DEATH_INFO,
@@ -19,7 +18,7 @@ from ..choices import (SOURCE_OF_DEATH_INFO,
                        HOSPITILIZATION_REASONS)
 
 
-class DeathReport(ReferenceModelMixin, UniqueSubjectIdentifierFieldMixin,
+class DeathReport(UniqueSubjectIdentifierFieldMixin,
                   SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
     report_datetime = models.DateTimeField(

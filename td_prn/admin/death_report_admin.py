@@ -39,6 +39,3 @@ class DeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
         'medical_responsibility': admin.VERTICAL,
         'participant_hospitalized': admin.VERTICAL,
         'reason_hospitalized': admin.VERTICAL}
-
-
-admin.site.register(DeathReport, DeathReportAdmin)
