@@ -2,11 +2,11 @@ from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import td_prn_admin
 from ..forms import DeathReportForm
-from ..models import DeathReport
+from ..models import MaternalDeathReport
 from .modeladmin_mixins import ModelAdminMixin
 
 
-@admin.register(DeathReport, site=td_prn_admin)
+@admin.register(MaternalDeathReport, site=td_prn_admin)
 class DeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = DeathReportForm

@@ -46,7 +46,6 @@ class MaternalOffStudyAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'subject_identifier',
                 'report_datetime',
                 'offstudy_date',
-                'last_study_fu_date',
                 'reason',
                 'reason_other',
                 'comment']}

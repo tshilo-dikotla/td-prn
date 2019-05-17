@@ -1,25 +1,29 @@
 from django.db import models
-
+from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
 from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
-from edc_base.model_validators import (
-    datetime_not_future, date_not_future)
+from edc_base.model_validators import datetime_not_future
 from edc_base.sites import SiteModelMixin
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_identifier.managers import SubjectIdentifierManager
-from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
 from edc_protocol.validators import datetime_not_before_study_start
+from edc_reference.model_mixins import ReferenceModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin
 
-from ..choices import (SOURCE_OF_DEATH_INFO,
+from td_maternal.action_items import MATERNAL_DEATH_REPORT_ACTION
+from td_maternal.choices import (SOURCE_OF_DEATH_INFO,
                        CAUSE_OF_DEATH_CAT, MED_RESPONSIBILITY,
                        HOSPITILIZATION_REASONS)
 
 
-class DeathReport(UniqueSubjectIdentifierFieldMixin,
-                  SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
+class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
+                          SearchSlugModelMixin, BaseUuidModel):
+
+    tracking_identifier_prefix = 'DR'
+
+    action_name = MATERNAL_DEATH_REPORT_ACTION
 
     report_datetime = models.DateTimeField(
         verbose_name='Report Date',
@@ -31,7 +35,7 @@ class DeathReport(UniqueSubjectIdentifierFieldMixin,
                    ' the date/time this information was reported.'))
 
     death_date = models.DateField(
-        validators=[date_not_future],
+        validators=[datetime_not_future],
         verbose_name='Date of Death:')
 
     comment = models.TextField(
@@ -46,7 +50,8 @@ class DeathReport(UniqueSubjectIdentifierFieldMixin,
         verbose_name=('what is the primary source of '
                       ' cause of death information? '
                       '(if multiple source of information, '
-                      'list one with the smallest number closest to the top of the list)'))
+                      'list one with the smallest number closest to the top of the list)'
+                      ))
 
     primary_source_other = OtherCharField(
         max_length=100,
