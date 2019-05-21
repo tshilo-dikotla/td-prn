@@ -1,6 +1,7 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ValidationError
 from django.db import models
+from edc_base.model_validators import date_not_future
 from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
@@ -23,7 +24,7 @@ class DeathReportModelMixin(models.Model):
                    ' the date/time this information was reported.'))
 
     death_date = models.DateField(
-        validators=[datetime_not_future],
+        validators=[date_not_future],
         verbose_name='Date of Death:')
 
     cause = models.CharField(
