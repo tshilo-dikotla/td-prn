@@ -1,2 +1,4 @@
 from .death_report_form import DeathReportForm
+from .infant_death_report_form import InfantDeathReportForm
+from .infant_offstudy_form import InfantOffStudyForm
 from .maternal_off_study_form import MaternalOffStudyForm

@@ -11,19 +11,12 @@ class AppConfig(DjangoAppConfig):
     admin_site_name = 'td_prn_admin'
 
     def ready(self):
-        from .models import study_termination_conclusion_on_post_save
+        from .models import maternal_offstudy_on_post_save
 
 
 if settings.APP_NAME == 'td_prn':
-    from edc_visit_tracking.apps import (
-        AppConfig as BaseEdcVisitTrackingAppConfig)
     from edc_appointment.apps import AppConfig as BaseEdcAppointmentAppConfig
     from edc_appointment.appointment_config import AppointmentConfig
-
-#     class EdcVisitTrackingAppConfig(BaseEdcVisitTrackingAppConfig):
-#         visit_models = {
-#             'td_maternal': ('maternal_visit', 'td_maternal.maternalvisit'),
-#             'td_infant': ('infant_visit', 'td_infant.infantvisit')}
 
     class EdcAppointmentAppConfig(BaseEdcAppointmentAppConfig):
         default_appt_type = 'clinic'
