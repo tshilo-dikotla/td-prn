@@ -33,7 +33,7 @@ class MaternalDeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
          ), audit_fieldset_tuple)
 
     radio_fields = {
-        'primary_source': admin.VERTICAL,
+        'cause': admin.VERTICAL,
         'cause_category': admin.VERTICAL,
         'perform_autopsy': admin.VERTICAL,
         'medical_responsibility': admin.VERTICAL,

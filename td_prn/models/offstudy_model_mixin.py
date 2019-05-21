@@ -10,7 +10,7 @@ from edc_protocol.validators import datetime_not_before_study_start
 from edc_base.model_fields.custom_fields import OtherCharField
 
 
-class OffStudyModelMixin:
+class OffStudyModelMixin(models.Model):
 
     report_datetime = models.DateTimeField(
         verbose_name="Report Date",

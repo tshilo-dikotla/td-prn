@@ -1,3 +1,4 @@
+from .death_report_model_mixin import DeathReportModelMixin
 from .infant_death_report import InfantDeathReport
 from .infant_off_study import InfantOffStudy
 from .maternal_death_report import MaternalDeathReport
