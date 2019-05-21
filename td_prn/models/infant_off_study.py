@@ -17,7 +17,7 @@ class InfantOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
 
     """ A model completed by the user when the infant is taken off study. """
 
-    tracking_identifier_prefix = 'ST'
+    tracking_identifier_prefix = 'IO'
 
     report_datetime = models.DateTimeField(
         verbose_name="Report Date",

@@ -17,7 +17,7 @@ from .offstudy_model_mixin import OffStudyModelMixin
 class MaternalOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
                        ActionModelMixin, BaseUuidModel):
 
-    tracking_identifier_prefix = 'MST'
+    tracking_identifier_prefix = 'MO'
 
     report_datetime = models.DateTimeField(
         verbose_name="Report Date",

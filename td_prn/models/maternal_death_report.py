@@ -14,7 +14,7 @@ class MaternalDeathReport(DeathReportModelMixin, ReferenceModelMixin,
                           ActionModelMixin, SiteModelMixin,
                           SearchSlugModelMixin, BaseUuidModel):
 
-    tracking_identifier_prefix = 'MDR'
+    tracking_identifier_prefix = 'MD'
 
     action_name = MATERNAL_DEATH_REPORT_ACTION
 
