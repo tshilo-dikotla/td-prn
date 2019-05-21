@@ -1,6 +1,4 @@
 from django.db import models
-from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
-from edc_base.model_fields import OtherCharField
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import datetime_not_future
@@ -12,16 +10,17 @@ from edc_protocol.validators import datetime_not_before_study_start
 from edc_reference.model_mixins import ReferenceModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin
 
-from td_maternal.action_items import MATERNAL_DEATH_REPORT_ACTION
-from td_maternal.choices import (SOURCE_OF_DEATH_INFO,
-                       CAUSE_OF_DEATH_CAT, MED_RESPONSIBILITY,
-                       HOSPITILIZATION_REASONS)
+from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
+from edc_base.model_fields import OtherCharField
+from ..action_items import MATERNAL_DEATH_REPORT_ACTION
+from ..choices import MED_RESPONSIBILITY, HOSPITILIZATION_REASONS
+from ..choices import SOURCE_OF_DEATH_INFO, CAUSE_OF_DEATH_CAT
 
 
-class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
-                          SearchSlugModelMixin, BaseUuidModel):
+class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin,
+                          SiteModelMixin, SearchSlugModelMixin, BaseUuidModel):
 
-    tracking_identifier_prefix = 'DR'
+    tracking_identifier_prefix = 'MDR'
 
     action_name = MATERNAL_DEATH_REPORT_ACTION
 
@@ -40,7 +39,7 @@ class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
 
     comment = models.TextField(
         max_length=500,
-        verbose_name="Comments",
+        verbose_name='Comments',
         blank=True,
         null=True)
 
@@ -50,25 +49,20 @@ class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
         verbose_name=('what is the primary source of '
                       ' cause of death information? '
                       '(if multiple source of information, '
-                      'list one with the smallest number closest to the top of the list)'
+                      'list one with the smallest number closest to the'
+                      ' top of the list)'
                       ))
 
     primary_source_other = OtherCharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        verbose_name='If "Other" above, please specify')
+        max_length=100)
 
     cause_category = models.CharField(
         max_length=50,
         choices=CAUSE_OF_DEATH_CAT,
-        verbose_name='based on the description above, what category best defines'
-        ' the major cause of death?')
+        verbose_name='based on the description above, what category'
+        ' best defines the major cause of death?')
 
-    cause_category_other = OtherCharField(
-        verbose_name='If "Other" above, please specify',
-        blank=True,
-        null=True)
+    cause_category_other = OtherCharField()
 
     perform_autopsy = models.CharField(
         max_length=3,
@@ -78,49 +72,47 @@ class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
     medical_responsibility = models.CharField(
         choices=MED_RESPONSIBILITY,
         max_length=50,
-        verbose_name='Who was responsible for primary medical care of the '
-        'participant during the month prior to death?',
-        help_text="")
+        verbose_name=('Who was responsible for primary medical care of the '
+                      'participant during the month prior to death?'))
 
     participant_hospitalized = models.CharField(
         max_length=3,
         choices=YES_NO,
-        verbose_name="Was the participant hospitalised before death?")
+        verbose_name='Was the participant hospitalised before death?')
 
     reason_hospitalized = models.CharField(
         choices=HOSPITILIZATION_REASONS,
         max_length=50,
-        verbose_name='if yes, hospitalized, what was the primary reason for hospitalisation? ',
+        verbose_name=('if yes, hospitalized, what was the primary reason'
+                      ' for hospitalisation? '),
         blank=True,
         null=True)
 
     reason_hospitalized_other = models.TextField(
-        verbose_name='if other illness or pathogen specify or non '
-        'infectious reason, please specify below:',
+        verbose_name=('if other illness or pathogen specify or non '
+                      'infectious reason, please specify below:'),
         max_length=250,
         blank=True,
         null=True)
 
     days_hospitalized = models.IntegerField(
-        verbose_name=(
-            'For how many days was the participant hospitalised during '
-            'the illness immediately before death? '),
-        help_text="in days",
+        verbose_name=('For how many days was the participant hospitalised'
+                      ' during the illness immediately before death? '),
+        help_text='in days',
         default=0)
 
     narrative = models.TextField(
-        verbose_name=(
-            'Describe the major cause of death (including pertinent autopsy information '
-            'if available), starting with the first noticeable illness thought to be '
-            'related to death, continuing to time of death.'),
+        verbose_name=('Describe the major cause of death (including pertinent'
+                      ' autopsy information if available), starting with the'
+                      ' first noticeable illness thought to be related to'
+                      ' death, continuing to time of death.'),
         blank=True,
         null=True,
-        help_text=(
-            'Note: Cardiac and pulmonary arrest are not major reasons and should not '
-            'be used to describe major cause'))
+        help_text=('Note: Cardiac and pulmonary arrest are not major reasons'
+                   ' and should not be used to describe major cause'))
 
     illness_duration = models.IntegerField(
-        verbose_name='Duration of acute illness directly causing death   ',
+        verbose_name='Duration of acute illness directly causing death',
         help_text='in days (If unknown enter -1)')
 
     objects = SubjectIdentifierManager()
@@ -133,4 +125,4 @@ class MaternalDeathReport(ReferenceModelMixin, ActionModelMixin, SiteModelMixin,
     natural_key.dependencies = ['sites.Site']
 
     class Meta:
-        verbose_name = 'Death Report'
+        verbose_name = 'Maternal Death Report'

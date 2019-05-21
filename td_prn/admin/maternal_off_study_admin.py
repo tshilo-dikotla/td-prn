@@ -16,10 +16,12 @@ from ..forms import MaternalOffStudyForm
 from ..models import MaternalOffStudy
 
 
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
+class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
+                      ModelAdminFormInstructionsMixin,
                       ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
                       ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin, ModelAdminRedirectOnDeleteMixin,
+                      ModelAdminInstitutionMixin,
+                      ModelAdminRedirectOnDeleteMixin,
                       ModelAdminSubjectDashboardMixin, ModelAdminSiteMixin):
 
     list_per_page = 10

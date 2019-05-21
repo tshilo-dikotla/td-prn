@@ -1,3 +1,5 @@
+from django.apps import apps as django_apps
+from django.core.exceptions import ValidationError
 from django.db import models
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
@@ -5,17 +7,15 @@ from edc_identifier.managers import SubjectIdentifierManager
 from edc_visit_schedule.model_mixins import OffScheduleModelMixin
 
 from edc_action_item.model_mixins import ActionModelMixin
-from td_maternal.action_items import MATERNALOFF_STUDY_ACTION
-from td_maternal.models.model_mixins import ConsentVersionModelModelMixin
-
+from ..action_items import MATERNALOFF_STUDY_ACTION
 from ..choices import MATERNAL_OFF_STUDY_REASON
 from .offstudy_model_mixin import OffStudyModelMixin
 
 
-class MaternalOffStudy(OffStudyModelMixin, ConsentVersionModelModelMixin,
-                       OffScheduleModelMixin, ActionModelMixin, BaseUuidModel):
+class MaternalOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
+                       ActionModelMixin, BaseUuidModel):
 
-    tracking_identifier_prefix = 'ST'
+    tracking_identifier_prefix = 'MST'
 
     reason = models.CharField(
         verbose_name=('Please code the primary reason participant taken'

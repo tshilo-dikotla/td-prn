@@ -16,10 +16,12 @@ from ..forms import InfantDeathReportForm
 from ..models import InfantDeathReport
 
 
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
+class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
+                      ModelAdminFormInstructionsMixin,
                       ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
                       ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin, ModelAdminRedirectOnDeleteMixin,
+                      ModelAdminInstitutionMixin,
+                      ModelAdminRedirectOnDeleteMixin,
                       ModelAdminSubjectDashboardMixin, ModelAdminSiteMixin):
 
     list_per_page = 10
@@ -78,16 +80,3 @@ class InfantDeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
         "haart_relationship": admin.VERTICAL,
         "trad_med_relationship": admin.VERTICAL
     }
-
-#     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#         if db_field.name == "infant_visit":
-#             if request.GET.get('infant_visit'):
-#                 kwargs["queryset"] = InfantVisit.objects.filter(
-#                     id=request.GET.get('infant_visit'))
-#         if db_field.name == "registered_subject":
-#             if request.GET.get('infant_visit'):
-#                 infant_visit = InfantVisit.objects.get(
-#                     id=request.GET.get('infant_visit'))
-#                 kwargs["queryset"] = RegisteredSubject.objects.filter(
-#                     subject_identifier=infant_visit.appointment.registered_subject.subject_identifier)
-#         return super(InfantDeathReportAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)

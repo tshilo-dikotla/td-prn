@@ -1,15 +1,15 @@
 from django.contrib import admin
 from edc_model_admin import audit_fieldset_tuple
 from ..admin_site import td_prn_admin
-from ..forms import DeathReportForm
+from ..forms import MaternalDeathReportForm
 from ..models import MaternalDeathReport
 from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(MaternalDeathReport, site=td_prn_admin)
-class DeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
+class MaternalDeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
 
-    form = DeathReportForm
+    form = MaternalDeathReportForm
 
     fieldsets = (
         (None, {
@@ -17,10 +17,10 @@ class DeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'subject_identifier',
                 'report_datetime',
                 'death_date',
-                'primary_source',
-                'primary_source_other',
+                'cause',
+                'cause_other',
                 'perform_autopsy',
-                'narrative',
+                'death_cause',
                 'cause_category',
                 'cause_category_other',
                 'illness_duration',

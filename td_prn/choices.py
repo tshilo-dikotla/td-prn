@@ -1,13 +1,5 @@
-from edc_constants.constants import (
-    OFF_STUDY, ON_STUDY, FAILED_ELIGIBILITY, PARTICIPANT)
-from edc_constants.constants import ALIVE, DEAD, NOT_APPLICABLE, OTHER, UNKNOWN
-from edc_visit_tracking.constants import MISSED_VISIT, COMPLETED_PROTOCOL_VISIT
-from edc_visit_tracking.constants import SCHEDULED, UNSCHEDULED, LOST_VISIT
-
-from td_maternal.constants import NO_MODIFICATIONS, START
-
-from .constants import BREASTFEED_ONLY, NEVER_STARTED, MODIFIED, TUBERCULOSIS
-from .constants import MIN_AGE_OF_CONSENT
+from edc_constants.constants import OTHER, UNKNOWN
+from .constants import MIN_AGE_OF_CONSENT, TUBERCULOSIS
 
 CAUSE_OF_DEATH_CAT = (
     ('hiv_related', 'HIV infection or HIV related diagnosis'),

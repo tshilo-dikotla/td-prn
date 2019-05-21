@@ -29,7 +29,8 @@ def take_off_schedule(self, instance):
         except on_schedule.DoesNotExist:
             pass
         else:
-            _, schedule = site_visit_schedules.get_by_onschedule_model_schedule_name(
-                onschedule_model=on_schedule._meta.label_lower,
-                name=on_schedule_obj.schedule_name)
+            _, schedule = \
+                site_visit_schedules.get_by_onschedule_model_schedule_name(
+                    onschedule_model=on_schedule._meta.label_lower,
+                    name=on_schedule_obj.schedule_name)
             schedule.take_off_schedule(offschedule_model_obj=self)
