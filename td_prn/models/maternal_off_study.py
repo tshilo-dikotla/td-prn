@@ -19,6 +19,8 @@ class MaternalOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
 
     tracking_identifier_prefix = 'MO'
 
+    action_name = MATERNALOFF_STUDY_ACTION
+
     report_datetime = models.DateTimeField(
         verbose_name="Report Date",
         validators=[
@@ -34,12 +36,11 @@ class MaternalOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
         max_length=115,
         choices=MATERNAL_OFF_STUDY_REASON)
 
-    action_name = MATERNALOFF_STUDY_ACTION
-
     objects = SubjectIdentifierManager()
 
     history = HistoricalRecords()
 
     class Meta:
+        app_label = 'td_prn'
         verbose_name = 'Maternal Off Study'
         verbose_name_plural = 'Maternal Off Studies'
