@@ -105,3 +105,4 @@ venv.bak/
 
 
 td_prn/migrations/
+.DS_Store
