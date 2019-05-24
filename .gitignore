@@ -2,6 +2,19 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*migrations
+.DS_store
+.project
+.pydevproject
+db.sqlite3-journal
+.settings
+*migrations
+upgrade/
+*static
+test-*
+db.sqlite3
+etc/*
+
 
 # C extensions
 *.so
@@ -103,6 +116,3 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-
-td_prn/migrations/
-.DS_Store
