@@ -1,3 +1,5 @@
+from django.apps import apps as django_apps
+from django.core.exceptions import ValidationError
 from django.db import models
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
@@ -7,6 +9,7 @@ from edc_identifier.managers import SubjectIdentifierManager
 from edc_identifier.model_mixins import TrackingIdentifierModelMixin
 from edc_protocol.validators import datetime_not_before_study_start
 from edc_visit_schedule.model_mixins import OffScheduleModelMixin
+
 from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
 
 from ..action_items import INFANTOFF_STUDY_ACTION
@@ -42,10 +45,27 @@ class InfantOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
 
     history = HistoricalRecords()
 
-    def save(self, *args, **kwargs):
-        if not self.last_study_fu_date:
-            self.last_study_fu_date = self.offschedule_datetime.date()
-        super().save(*args, **kwargs)
+    def get_consent_version(self):
+        subject_screening_cls = django_apps.get_model(
+            'td_maternal.subjectscreening')
+        consent_version_cls = django_apps.get_model(
+            'td_maternal.tdconsentversion')
+        try:
+            subject_screening_obj = subject_screening_cls.objects.get(
+                subject_identifier=self.subject_identifier[:-3])
+        except subject_screening_cls.DoesNotExist:
+            raise ValidationError(
+                'Missing Subject Screening form. Please complete '
+                'it before proceeding.')
+        else:
+            try:
+                consent_version_obj = consent_version_cls.objects.get(
+                    screening_identifier=subject_screening_obj.screening_identifier)
+            except consent_version_cls.DoesNotExist:
+                raise ValidationError(
+                    'Missing Consent Version form. Please complete '
+                    'it before proceeding.')
+            return consent_version_obj.version
 
     class Meta:
         app_label = 'td_prn'
