@@ -1,10 +1,10 @@
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from edc_visit_schedule.site_visit_schedules import site_visit_schedules
-
 from td_maternal.models.onschedule import OnScheduleAntenatalEnrollment
 from td_maternal.models.onschedule import OnScheduleAntenatalVisitMembership
 from td_maternal.models.onschedule import OnScheduleMaternalLabourDel
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
 from .maternal_off_study import MaternalOffStudy
 
@@ -17,7 +17,7 @@ def maternal_offstudy_on_post_save(sender, instance, raw, created, **kwargs):
         take_off_schedule(instance)
 
 
-def take_off_schedule(self, instance):
+def take_off_schedule(instance):
     maternal_schedules = [OnScheduleMaternalLabourDel,
                           OnScheduleAntenatalVisitMembership,
                           OnScheduleAntenatalEnrollment]
@@ -33,4 +33,4 @@ def take_off_schedule(self, instance):
                 site_visit_schedules.get_by_onschedule_model_schedule_name(
                     onschedule_model=on_schedule._meta.label_lower,
                     name=on_schedule_obj.schedule_name)
-            schedule.take_off_schedule(offschedule_model_obj=self)
+            schedule.take_off_schedule(offschedule_model_obj=instance)
