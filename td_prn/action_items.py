@@ -25,6 +25,10 @@ class InfantOffStudyAction(Action):
     priority = HIGH_PRIORITY
     singleton = True
 
+    def get_next_actions(self):
+        actions = [MaternalOffStudyAction]
+        return actions
+
 
 class MaternalDeathReportAction(Action):
     name = MATERNAL_DEATH_REPORT_ACTION
