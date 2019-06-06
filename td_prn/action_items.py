@@ -16,6 +16,10 @@ class MaternalOffStudyAction(Action):
     priority = HIGH_PRIORITY
     singleton = True
 
+    def get_next_actions(self):
+        actions = [InfantOffStudyAction]
+        return actions
+
 
 class InfantOffStudyAction(Action):
     name = INFANTOFF_STUDY_ACTION
@@ -24,10 +28,6 @@ class InfantOffStudyAction(Action):
     admin_site_name = 'td_prn_admin'
     priority = HIGH_PRIORITY
     singleton = True
-
-    def get_next_actions(self):
-        actions = [MaternalOffStudyAction]
-        return actions
 
 
 class MaternalDeathReportAction(Action):

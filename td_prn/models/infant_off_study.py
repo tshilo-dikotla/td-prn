@@ -9,6 +9,7 @@ from edc_identifier.managers import SubjectIdentifierManager
 from edc_identifier.model_mixins import TrackingIdentifierModelMixin
 from edc_protocol.validators import datetime_not_before_study_start
 from edc_visit_schedule.model_mixins import OffScheduleModelMixin
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
 from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
 
@@ -44,6 +45,22 @@ class InfantOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
     objects = SubjectIdentifierManager()
 
     history = HistoricalRecords()
+
+    def take_off_schedule(self):
+        infant_schedule_model = django_apps.get_model(
+            'td_infant.onscheduleinfantbirth')
+
+        try:
+            on_schedule_obj = infant_schedule_model.objects.get(
+                subject_identifier=self.subject_identifier)
+        except infant_schedule_model.DoesNotExist:
+            pass
+        else:
+            _, schedule = \
+                site_visit_schedules.get_by_onschedule_model_schedule_name(
+                    onschedule_model='td_infant.onscheduleinfantbirth',
+                    name=on_schedule_obj.schedule_name)
+            schedule.take_off_schedule(offschedule_model_obj=self)
 
     def get_consent_version(self):
         subject_screening_cls = django_apps.get_model(
