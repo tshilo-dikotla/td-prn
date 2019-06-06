@@ -1,11 +1,11 @@
 from django import forms
-from edc_form_validators import FormValidator
-
 from ..form_validators import OffstudyFormValidator
 from ..models import MaternalOffStudy
 
 
-class MaternalOffStudyForm(OffstudyFormValidator, FormValidator, forms.ModelForm):
+class MaternalOffStudyForm(forms.ModelForm):
+
+    form_validator_cls = OffstudyFormValidator
 
     class Meta:
         model = MaternalOffStudy
