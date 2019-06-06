@@ -15,7 +15,7 @@ def maternal_offstudy_on_post_save(sender, instance, raw, created, **kwargs):
         take_off_schedule(instance)
 
 
-def take_off_schedule(self, instance):
+def take_off_schedule(instance):
     maternal_labour_del_schedule = django_apps.get_model(
         'td_maternal.onschedulematernallabourdel')
     antenatal_visit_membership_schedule = django_apps.get_model(
