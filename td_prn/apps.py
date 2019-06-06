@@ -10,9 +10,6 @@ class AppConfig(DjangoAppConfig):
     verbose_name = 'Tshilo dikotla prn'
     admin_site_name = 'td_prn_admin'
 
-    def ready(self):
-        from .models import maternal_offstudy_on_post_save
-
 
 if settings.APP_NAME == 'td_prn':
     from edc_appointment.apps import AppConfig as BaseEdcAppointmentAppConfig
