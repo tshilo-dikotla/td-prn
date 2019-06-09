@@ -19,7 +19,7 @@ from ..models import MaternalOffStudy
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                       ModelAdminFormInstructionsMixin,
                       ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
+                      ModelAdminAuditFieldsMixin,
                       ModelAdminInstitutionMixin,
                       ModelAdminRedirectOnDeleteMixin,
                       ModelAdminSubjectDashboardMixin, ModelAdminSiteMixin):
@@ -54,10 +54,3 @@ class MaternalOffStudyAdmin(ModelAdminMixin, admin.ModelAdmin):
          ), audit_fieldset_tuple)
 
     radio_fields = {'reason': admin.VERTICAL}
-
-    def get_readonly_fields(self, request, obj=None):
-        fields = super().get_readonly_fields(request, obj)
-        fields = ('tracking_identifier', 'action_identifier') + fields
-        if obj:
-            fields = fields + ('subject_identifier',)
-        return fields
