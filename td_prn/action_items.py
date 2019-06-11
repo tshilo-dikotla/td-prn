@@ -61,20 +61,6 @@ class InfantDeathReportAction(Action):
     priority = HIGH_PRIORITY
     singleton = True
 
-    def get_next_actions(self):
-        actions = []
-        infant_deathreport_cls = django_apps.get_model(
-            'td_prn.infantdeathreport')
-
-        subject_identifier = self.reference_model_obj.subject_identifier
-        try:
-            infant_deathreport_cls.objects.get(
-                subject_identifier=subject_identifier)
-            actions = [InfantOffStudyAction]
-        except ObjectDoesNotExist:
-            pass
-        return actions
-
 
 site_action_items.register(MaternalDeathReportAction)
 site_action_items.register(MaternalOffStudyAction)

@@ -1,10 +1,9 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ValidationError
 from django.db import models
+from edc_base.model_fields.custom_fields import OtherCharField
 from edc_base.model_validators import date_not_future
 from edc_protocol.validators import date_not_before_study_start
-
-from edc_base.model_fields.custom_fields import OtherCharField
 
 
 class OffStudyModelMixin(models.Model):
@@ -23,23 +22,27 @@ class OffStudyModelMixin(models.Model):
         blank=True,
         null=True)
 
+    @property
+    def subject_screening_cls(self):
+        return django_apps.get_model('td_maternal.subjectscreening')
+
+    @property
+    def consent_version_cls(self):
+        django_apps.get_model('td_maternal.tdconsentversion')
+
     def get_consent_version(self):
-        subject_screening_cls = django_apps.get_model(
-            'td_maternal.subjectscreening')
-        consent_version_cls = django_apps.get_model(
-            'td_maternal.tdconsentversion')
         try:
-            subject_screening_obj = subject_screening_cls.objects.get(
+            subject_screening_obj = self.subject_screening_cls.objects.get(
                 subject_identifier=self.subject_identifier)
-        except subject_screening_cls.DoesNotExist:
+        except self.subject_screening_cls.DoesNotExist:
             raise ValidationError(
                 'Missing Subject Screening form. Please complete '
                 'it before proceeding.')
         else:
             try:
-                consent_version_obj = consent_version_cls.objects.get(
+                consent_version_obj = self.consent_version_cls.objects.get(
                     screening_identifier=subject_screening_obj.screening_identifier)
-            except consent_version_cls.DoesNotExist:
+            except self.consent_version_cls.DoesNotExist:
                 raise ValidationError(
                     'Missing Consent Version form. Please complete '
                     'it before proceeding.')
