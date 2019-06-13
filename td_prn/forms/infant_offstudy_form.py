@@ -15,6 +15,8 @@ class InfantOffStudyForm(InfantFormValidatorMixin, FormValidatorMixin,
     def clean(self):
         super().clean()
 
+        self.subject_identifier = self.cleaned_data.get('subject_identifier')
+
         self.validate_against_birth_date(
             infant_identifier=self.subject_identifier,
             report_datetime=self.cleaned_data.get('report_datetime'))
