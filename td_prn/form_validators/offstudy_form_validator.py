@@ -13,5 +13,3 @@ class OffstudyFormValidator(TDFormValidatorMixin, FormValidator):
             field='reason',
             other_specify_field='reason_other',
         )
-        self.validate_against_consent_datetime(
-            self.cleaned_data.get('report_datetime'))

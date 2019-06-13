@@ -11,7 +11,8 @@ class MaternalOffStudyForm(FormValidatorMixin, forms.ModelForm):
 
     def clean(self):
         super().clean()
-        print(self.cleaned_data)
+        self.validate_against_consent_datetime(
+            self.cleaned_data.get('report_datetime'))
 
     class Meta:
         model = MaternalOffStudy
