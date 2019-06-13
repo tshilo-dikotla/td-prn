@@ -21,6 +21,9 @@ class InfantOffStudyForm(InfantFormValidatorMixin, FormValidatorMixin,
             infant_identifier=self.subject_identifier,
             report_datetime=self.cleaned_data.get('report_datetime'))
 
+        self.validate_against_visit_date(
+            self.cleaned_data.get('offstudy_date'))
+
     class Meta:
         model = InfantOffStudy
         fields = '__all__'
