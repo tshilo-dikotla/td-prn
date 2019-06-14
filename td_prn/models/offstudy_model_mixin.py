@@ -28,7 +28,7 @@ class OffStudyModelMixin(models.Model):
 
     @property
     def consent_version_cls(self):
-        django_apps.get_model('td_maternal.tdconsentversion')
+        return django_apps.get_model('td_maternal.tdconsentversion')
 
     def get_consent_version(self):
         try:
