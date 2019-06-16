@@ -20,10 +20,9 @@ class InfantOffStudyForm(InfantFormValidatorMixin, FormValidatorMixin,
         return django_apps.get_model(self.infant_visit)
 
     def clean(self):
+        self.subject_identifier = self.infant_identifier[:-3]
         super().clean()
         self.infant_identifier = self.cleaned_data.get('subject_identifier')
-
-        self.subject_identifier = self.infant_identifier[:-3]
 
         self.validate_against_birth_date(
             infant_identifier=self.infant_identifier,
