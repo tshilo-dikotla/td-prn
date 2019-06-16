@@ -15,6 +15,7 @@ class MaternalOffStudyForm(FormValidatorMixin, forms.ModelForm):
     maternal_visit = 'td_maternal.maternalvisit'
 
     def clean(self):
+        self.subject_identifier = self.cleaned_data.get('subject_identifier')
         super().clean()
         self.validate_against_latest_visit()
 
@@ -24,8 +25,8 @@ class MaternalOffStudyForm(FormValidatorMixin, forms.ModelForm):
 
     def validate_against_latest_visit(self):
         try:
-            maternal_visit = self.maternal_visit_cls.objects.all(
-                ).order_by('-report_datetime').first()
+            maternal_visit = self.maternal_visit_cls.objects.all().order_by(
+                '-report_datetime').first()
             self.previous_visit = maternal_visit.report_datetime
         except Exception:
             pass
@@ -37,14 +38,14 @@ class MaternalOffStudyForm(FormValidatorMixin, forms.ModelForm):
                     'report_datetime': 'Report datetime cannot be '
                     f'before previous visit Got {report_datetime.date()} '
                     f'but previous visit is {self.previous_visit.date()}'
-                    })
+                })
             if offstudy_date and \
                     offstudy_date < maternal_visit.report_datetime.date():
                 raise forms.ValidationError({
                     'offstudy_date': 'Offstudy date cannot be '
                     f'before previous visit Got {offstudy_date} '
                     f'but previous visit is {self.previous_visit.date()}'
-                    })
+                })
 
     class Meta:
         model = MaternalOffStudy

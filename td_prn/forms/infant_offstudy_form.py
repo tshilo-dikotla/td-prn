@@ -21,23 +21,24 @@ class InfantOffStudyForm(InfantFormValidatorMixin, FormValidatorMixin,
 
     def clean(self):
         super().clean()
+        self.infant_identifier = self.cleaned_data.get('subject_identifier')
 
-        self.subject_identifier = self.cleaned_data.get('subject_identifier')
+        self.subject_identifier = self.infant_identifier[:-3]
 
         self.validate_against_birth_date(
-            infant_identifier=self.subject_identifier,
+            infant_identifier=self.infant_identifier,
             report_datetime=self.cleaned_data.get('report_datetime'))
 
         self.validate_against_birth_date(
-            infant_identifier=self.subject_identifier,
+            infant_identifier=self.infant_identifier,
             report_datetime=self.cleaned_data.get('offstudy_date'))
 
         self.validate_against_latest_infant_visit()
 
     def validate_against_latest_infant_visit(self):
         try:
-            infant_visit = self.infant_visit_cls.objects.all(
-                ).order_by('-report_datetime').first()
+            infant_visit = self.infant_visit_cls.objects.all().order_by(
+                '-report_datetime').first()
             self.previous_visit = infant_visit.report_datetime
         except Exception:
             pass
@@ -49,14 +50,14 @@ class InfantOffStudyForm(InfantFormValidatorMixin, FormValidatorMixin,
                     'report_datetime': 'Report datetime cannot be '
                     f'before previous visit Got {report_datetime.date()} '
                     f'but previous visit is {self.previous_visit.date()}'
-                    })
+                })
             if offstudy_date and \
                     offstudy_date < self.previous_visit.date():
                 raise forms.ValidationError({
                     'offstudy_date': 'Offstudy date cannot be '
                     f'before previous visit Got {offstudy_date} '
                     f'but previous visit is {self.previous_visit.date()}'
-                    })
+                })
 
     class Meta:
         model = InfantOffStudy
