@@ -16,6 +16,7 @@ class MaternalOffStudyForm(FormValidatorMixin, TDFormValidatorMixin,
     form_validator_cls = OffstudyFormValidator
 
     def clean(self):
+        self.subject_identifier = self.cleaned_data.get('subject_identifier')
 
         super().clean()
         self.validate_against_consent_datetime(
