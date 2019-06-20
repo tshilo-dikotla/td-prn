@@ -42,6 +42,8 @@ class InfantDeathReportAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = InfantDeathReportForm
 
+    search_fields = ('subject_identifier',)
+
     fieldsets = (
         (None, {
             'fields': (

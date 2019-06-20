@@ -42,6 +42,8 @@ class MaternalOffStudyAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = MaternalOffStudyForm
 
+    search_fields = ('subject_identifier',)
+
     fieldsets = (
         (None, {
             'fields': [
