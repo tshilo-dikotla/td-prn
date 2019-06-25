@@ -4,8 +4,8 @@ __pycache__/
 *$py.class
 *migrations
 .DS_store
-.project
-.pydevproject
+*.project
+*.pydevproject
 db.sqlite3-journal
 .settings
 *migrations
