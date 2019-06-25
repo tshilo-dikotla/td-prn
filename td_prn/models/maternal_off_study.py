@@ -6,10 +6,10 @@ from edc_base.model_validators.date import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_identifier.managers import SubjectIdentifierManager
 from edc_protocol.validators import datetime_not_before_study_start
-from edc_visit_schedule.model_mixins import OffScheduleModelMixin
-from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
 from edc_action_item.model_mixins import ActionModelMixin
+from edc_visit_schedule.model_mixins import OffScheduleModelMixin
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
 from ..action_items import MATERNALOFF_STUDY_ACTION
 from ..choices import MATERNAL_OFF_STUDY_REASON
@@ -54,17 +54,15 @@ class MaternalOffStudy(OffStudyModelMixin, OffScheduleModelMixin,
                               antenatal_enrollment_schedule]
 
         for on_schedule in maternal_schedules:
-            try:
-                on_schedule_obj = on_schedule.objects.get(
-                    subject_identifier=self.subject_identifier)
-            except on_schedule.DoesNotExist:
-                pass
-            else:
-                _, schedule = \
-                    site_visit_schedules.get_by_onschedule_model_schedule_name(
-                        onschedule_model=on_schedule._meta.label_lower,
-                        name=on_schedule_obj.schedule_name)
-                schedule.take_off_schedule(offschedule_model_obj=self)
+            on_schedule_objs = on_schedule.objects.filter(
+                subject_identifier=self.subject_identifier)
+            if on_schedule_objs:
+                for on_schedule_obj in on_schedule_objs:
+                    _, schedule = \
+                        site_visit_schedules.get_by_onschedule_model_schedule_name(
+                            onschedule_model=on_schedule._meta.label_lower,
+                            name=on_schedule_obj.schedule_name)
+                    schedule.take_off_schedule(offschedule_model_obj=self)
 
     class Meta:
         app_label = 'td_prn'
