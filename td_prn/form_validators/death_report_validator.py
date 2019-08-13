@@ -1,11 +1,10 @@
 from edc_constants.constants import YES
 from edc_form_validators import FormValidator
-from td_infant_validators.form_validators import InfantFormValidatorMixin
 
 from ..constants import OTHER
 
 
-class DeathReportFormValidator(InfantFormValidatorMixin, FormValidator):
+class DeathReportFormValidator(FormValidator):
 
     def clean(self):
 
