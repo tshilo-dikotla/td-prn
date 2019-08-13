@@ -1,11 +1,11 @@
 from django import forms
-from edc_form_validators import FormValidator
+from edc_form_validators import FormValidatorMixin
 
 from ..form_validators import DeathReportFormValidator
 from ..models import MaternalDeathReport
 
 
-class MaternalDeathReportForm(FormValidator, forms.ModelForm):
+class MaternalDeathReportForm(FormValidatorMixin, forms.ModelForm):
 
     form_validator_cls = DeathReportFormValidator
 
