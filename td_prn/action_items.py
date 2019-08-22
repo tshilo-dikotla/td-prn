@@ -16,10 +16,6 @@ class MaternalOffStudyAction(Action):
     priority = HIGH_PRIORITY
     singleton = True
 
-    def get_next_actions(self):
-        actions = [InfantOffStudyAction]
-        return actions
-
 
 class InfantOffStudyAction(Action):
     name = INFANTOFF_STUDY_ACTION
