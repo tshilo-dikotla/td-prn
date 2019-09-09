@@ -18,7 +18,8 @@ class OffstudyFormValidator(FormValidator):
     def validate_against_latest_visit(self):
         self.visit_cls = django_apps.get_model(self.visit_model)
 
-        latest_visit = self.visit_cls.objects.all().order_by(
+        subject_identifier = self.cleaned_data.get('subject_identifier')
+        latest_visit = self.visit_cls.objects.filter(appointment__subject_identifier=subject_identifier).order_by(
             '-report_datetime').first()
         latest_visit_datetime = latest_visit.report_datetime
 
