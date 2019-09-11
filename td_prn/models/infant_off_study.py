@@ -1,6 +1,7 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ValidationError
 from django.db import models
+from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
 from edc_base.model_managers import HistoricalRecords
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators.date import datetime_not_future
@@ -8,7 +9,6 @@ from edc_base.utils import get_utcnow
 from edc_identifier.managers import SubjectIdentifierManager
 from edc_protocol.validators import datetime_not_before_study_start
 
-from edc_action_item.model_mixins.action_model_mixin import ActionModelMixin
 from edc_visit_schedule.model_mixins import OffScheduleModelMixin
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
