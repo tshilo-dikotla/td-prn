@@ -164,9 +164,9 @@ SOURCE_OF_DEATH_INFO = (
     (OTHER, 'Other, specify'),)
 
 RELATIONSHIP_CHOICES = (
-    ('Not related', 'Not related'),
-    ('Probably not related', 'Probably not related'),
-    ('Possibly related', 'Possibly related'),
-    ('Probably related', 'Probably related'),
-    ('Definitely related', 'Definitely related'),
+    ('not_related', 'Not related'),
+    ('probably_not_related', 'Probably not related'),
+    ('possibly_related', 'Possibly related'),
+    ('probably_related', 'Probably related'),
+    ('definitely_related', 'Definitely related'),
 )
