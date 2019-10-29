@@ -36,14 +36,22 @@ class MaternalDeathReportAction(Action):
 
     def get_next_actions(self):
         actions = []
+        offstudy = None
         maternal_deathreport_cls = django_apps.get_model(
             'td_prn.maternaldeathreport')
 
+        action_item_cls = django_apps.get_model(
+            'edc_action_item.actionitem')
+
         subject_identifier = self.reference_model_obj.subject_identifier
+        offstudy = action_item_cls.objects.filter(
+            subject_identifier=subject_identifier,
+            action_type__name='submit-maternaloff-study')
         try:
             maternal_deathreport_cls.objects.get(
                 subject_identifier=subject_identifier)
-            actions = [MaternalOffStudyAction]
+            if not offstudy:
+                actions = [MaternalOffStudyAction]
         except ObjectDoesNotExist:
             pass
         return actions

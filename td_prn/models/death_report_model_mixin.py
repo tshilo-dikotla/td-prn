@@ -1,13 +1,16 @@
 from django.apps import apps as django_apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
+from edc_base import convert_php_dateformat
+from edc_base.model_fields import OtherCharField
 from edc_base.model_validators import date_not_future
 from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_constants.choices import YES_NO
 from edc_protocol.validators import datetime_not_before_study_start
 
-from edc_base.model_fields import OtherCharField
 from ..choices import MED_RESPONSIBILITY, HOSPITILIZATION_REASONS
 from ..choices import SOURCE_OF_DEATH_INFO, CAUSE_OF_DEATH_CAT
 
@@ -104,6 +107,12 @@ class DeathReportModelMixin(models.Model):
         verbose_name='Comments',
         blank=True,
         null=True)
+
+    def __str__(self):
+        formatted_date = timezone.localtime(
+            self.report_datetime).strftime(
+                convert_php_dateformat(settings.SHORT_DATE_FORMAT))
+        return f'{self.subject_identifier} {formatted_date}'
 
     def get_consent_version(self):
         subject_screening_cls = django_apps.get_model(
