@@ -21,12 +21,13 @@ class OffstudyFormValidator(FormValidator):
         subject_identifier = self.cleaned_data.get('subject_identifier')
         latest_visit = self.visit_cls.objects.filter(appointment__subject_identifier=subject_identifier).order_by(
             '-report_datetime').first()
-        latest_visit_datetime = latest_visit.report_datetime
 
         report_datetime = self.cleaned_data.get('report_datetime')
         offstudy_date = self.cleaned_data.get('offstudy_date')
 
         if latest_visit:
+            latest_visit_datetime = latest_visit.report_datetime
+
             if report_datetime < latest_visit.report_datetime:
                 raise forms.ValidationError({
                     'report_datetime': 'Report datetime cannot be '
