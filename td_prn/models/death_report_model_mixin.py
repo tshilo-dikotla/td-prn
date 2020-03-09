@@ -83,7 +83,7 @@ class DeathReportModelMixin(models.Model):
 
     reason_hospitalized = models.CharField(
         choices=HOSPITILIZATION_REASONS,
-        max_length=50,
+        max_length=70,
         verbose_name=('if yes, hospitalized, what was the primary reason'
                       ' for hospitalisation? '),
         blank=True,
