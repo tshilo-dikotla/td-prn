@@ -14,6 +14,7 @@ from edc_subject_dashboard import ModelAdminSubjectDashboardMixin
 from ..admin_site import td_prn_admin
 from ..forms import MaternalOffStudyForm
 from ..models import MaternalOffStudy
+from .exportaction_mixin import ExportActionMixin
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
@@ -22,7 +23,8 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                       ModelAdminAuditFieldsMixin,
                       ModelAdminInstitutionMixin,
                       ModelAdminRedirectOnDeleteMixin,
-                      ModelAdminSubjectDashboardMixin, ModelAdminSiteMixin):
+                      ModelAdminSubjectDashboardMixin,
+                      ModelAdminSiteMixin, ExportActionMixin):
 
     list_per_page = 10
     date_hierarchy = 'modified'
